@@ -31,6 +31,11 @@
       "pre-commit": "pretty-quick --staged"
     }
   },
+  "dependencies": {
+    "@emotion/core": "^10.0.22",
+    "rxjs": "^6.5.3",
+    "uuid": "^3.3.3"
+  },
   "peerDependencies": {
     "react": "^16.11.0",
     "react-dom": "^16.11.0"
@@ -40,6 +45,7 @@
     "@storybook/addon-info": "^5.2.5",
     "@storybook/react": "^5.2.5",
     "@types/jest": "^24.0.21",
+    "@types/uuid": "^3.4.6",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.6",
     "husky": "^3.0.9",

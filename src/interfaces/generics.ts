@@ -7,3 +7,8 @@ export interface Size {
   width: number
   height: number
 }
+
+export interface Transform {
+  position: Position;
+  zoom: number;
+}
