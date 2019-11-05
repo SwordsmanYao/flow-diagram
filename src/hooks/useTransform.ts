@@ -2,6 +2,7 @@ import { RefObject, useEffect, useState } from "react";
 import { Transform } from "../interfaces";
 import { fromEvent } from "rxjs";
 import { map, switchMap, takeUntil } from "rxjs/operators";
+import { parseTransform, stringifyTransform } from "../utils";
 
 /**
  *
@@ -62,24 +63,31 @@ export const useTransform = (
             targetRect
           };
         }),
-        map(
-          ({ event, targetRect }) => {
-            const transformStr = targetElementRef.current!.style.transform;
-            const matchs = transformStr.match(
-              /^scale\(([\s\S]+)\) translate\(([\s\S]+)px, ([\s\S]+)px\)$/
-            ) as any;
-            const preZoom = Number(matchs[1]);
-            const positionX = Number(matchs[2]);
-            const positionY = Number(matchs[3]);
-            const zoom = preZoom + (event.deltaY * 0.01) / 53;
-            const x =
-              ((event.clientX - targetRect.left) * (1 - zoom / preZoom) +
-                positionX * preZoom) /
-              zoom;
-            const y =
-              ((event.clientY - targetRect.top) * (1 - zoom / preZoom) +
-                positionY * preZoom) /
-              zoom;
+        map(({ event, targetRect }) => {
+          const pre = parseTransform(targetElementRef.current!.style.transform);
+          if (pre) {
+            let zoom = pre.zoom - (event.deltaY * 0.01) / 53;
+
+            if (zoom < 0.1) {
+              zoom = 0.1;
+            }
+
+            // 鼠标相对目标元素的位置
+            const mousePositionX = event.clientX - targetRect.left;
+            const mousePositionY = event.clientY - targetRect.top;
+
+            // zoom 的变更比例
+            const diffRatio = 1 - zoom / pre.zoom;
+
+            // 实际偏移，（经过zoom后的）
+            const offsetX =
+              mousePositionX * diffRatio + pre.position.x * pre.zoom;
+            const offsetY =
+              mousePositionY * diffRatio + pre.position.y * pre.zoom;
+
+            // zoom 前的偏移，即 position
+            const x = offsetX / zoom;
+            const y = offsetY / zoom;
             return {
               zoom,
               position: {
@@ -88,7 +96,14 @@ export const useTransform = (
               }
             };
           }
-        )
+          return {
+            zoom: 1,
+            position: {
+              x: 0,
+              y: 0
+            }
+          };
+        })
       );
 
       move$.subscribe(position => {
@@ -102,7 +117,7 @@ export const useTransform = (
       });
 
       zoom$.subscribe(val => {
-        targetElementRef.current!.style.transform = `scale(${val.zoom}) translate(${val.position.x}px, ${val.position.y}px)`;
+        targetElementRef.current!.style.transform = stringifyTransform(val);
         setTransform(val);
       });
     }

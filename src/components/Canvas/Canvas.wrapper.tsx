@@ -3,6 +3,7 @@ import { jsx, css } from "@emotion/core";
 import { useRef, ReactNode } from "react";
 import { CanvasContext, initialCanvas } from "./CanvasContext";
 import { useTransform } from "../../hooks";
+import { stringifyTransform } from "../../utils";
 
 interface Props {
   width?: string | number;
@@ -41,7 +42,7 @@ export const CanvasWrapper: React.FC<Props> = props => {
             <div
               ref={canvasRef}
               style={{
-                transform: `scale(${canvas.zoom}) translate(${canvas.position.x}px, ${canvas.position.y}px)`
+                transform: stringifyTransform(canvas)
               }}
               css={css`
                 width: 0;
