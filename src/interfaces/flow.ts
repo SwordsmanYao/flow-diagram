@@ -1,12 +1,12 @@
-import { Position } from './generics';
+import { Position } from "./generics";
 
 export interface Flow {
-  nodes: {
-    [id: string]: Node,
-  }
-  links: {
-    [id: string]: Link,
-  }
+  nodes?: {
+    [id: string]: Node;
+  };
+  links?: {
+    [id: string]: Link;
+  };
 }
 
 export interface Node {
@@ -27,12 +27,11 @@ export interface Port {
 export interface Link {
   id: string;
   type: string;
-  from: {
-    nodeId: string;
-    portId: string;
-  },
-  to: {
-    nodeId: string;
-    portId: string;
-  }
+  from: PortReference;
+  to: PortReference;
+}
+
+export interface PortReference {
+  nodeId: string;
+  portId: string;
 }

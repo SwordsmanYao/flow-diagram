@@ -1,8 +1,6 @@
-import { Position } from './generics';
-import { RefObject } from 'react';
+import { Transform } from "./generics";
+import { RefObject } from "react";
 
-export interface Canvas {
-  position: Position;
-  zoom: number;
+export type Canvas = Transform & {
   ref: RefObject<HTMLElement>;
-}
+};

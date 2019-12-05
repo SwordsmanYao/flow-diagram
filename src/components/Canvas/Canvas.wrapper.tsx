@@ -4,6 +4,7 @@ import { useRef, ReactNode } from "react";
 import { CanvasContext, initialCanvas } from "./CanvasContext";
 import { useTransform } from "../../hooks";
 import { stringifyTransform } from "../../utils";
+import * as React from "react";
 
 interface Props {
   width?: string | number;
@@ -13,14 +14,15 @@ interface Props {
 
 export const CanvasWrapper: React.FC<Props> = props => {
   const { children, width = 500, height = 500 } = props;
+  
   const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLDivElement>(null);
-  const { position, zoom } = useTransform(
+  const basicRef = useRef<HTMLDivElement>(null);
+  const { transform } = useTransform(
     {
       position: initialCanvas.position,
       zoom: initialCanvas.zoom
     },
-    canvasRef,
+    basicRef,
     containerRef,
     containerRef
   );
@@ -28,30 +30,27 @@ export const CanvasWrapper: React.FC<Props> = props => {
   return (
     <CanvasContext.Provider
       value={{
-        position,
-        zoom,
-        ref: canvasRef
+        ...transform,
+        ref: basicRef
       }}
     >
       <CanvasContext.Consumer>
         {canvas => (
           <div
             ref={containerRef}
-            style={{ width, height, overflow: "hidden", background: "#eee" }}
+            style={{ width, height, overflow: "hidden", background: "#eee", position: 'relative' }}
           >
             <div
-              ref={canvasRef}
+              ref={basicRef}
               style={{
                 transform: stringifyTransform(canvas)
               }}
               css={css`
                 width: 0;
                 height: 0;
-                background: #eee;
               `}
-            >
-              {children}
-            </div>
+            ></div>
+            {children}
           </div>
         )}
       </CanvasContext.Consumer>

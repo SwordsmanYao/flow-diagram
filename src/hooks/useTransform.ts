@@ -123,5 +123,5 @@ export const useTransform = (
     }
   }, []);
 
-  return transform;
+  return { transform, setTransform };
 };

@@ -17,3 +17,22 @@ export const parseTransform = (str: string) => {
   }
   return undefined;
 };
+
+export const stringifyPosition = (transform: Transform) =>
+  `translate(${transform.position.x}px, ${transform.position.y}px)`;
+
+export const parsePosition = (str: string) => {
+  const matchs = str.match(
+    /^translate\(([\s\S]+)px, ([\s\S]+)px\)$/
+  );
+  if (matchs && matchs.length === 4) {
+    return {
+      zoom: Number(matchs[1]),
+      position: {
+        x: Number(matchs[2]),
+        y: Number(matchs[3])
+      }
+    };
+  }
+  return undefined;
+};
