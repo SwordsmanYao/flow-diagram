@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@emotion/core": "^10.0.22",
+    "immer": "^5.0.0",
     "rxjs": "^6.5.3",
     "uuid": "^3.3.3"
   },

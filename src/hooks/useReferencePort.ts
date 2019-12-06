@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { FlowContext } from "./FlowContext";
-import { PortReference } from "../../interfaces";
+import { PortReference } from "../interfaces";
+import { FlowContext } from "../components/Flow";
 
 export const useReferencePort = (refPort: PortReference) => {
   const flow = useContext(FlowContext);

@@ -1,5 +1,15 @@
-// import { Flow } from "./flow";
+import { Flow, Node } from "./flow";
 
-// export interface Callback<T> {
-//   (flow: Flow, , defaultCallback: Callback<T>): Flow | undefined;
-// }
+export interface DefaultCallback<T> {
+  (params: { flow: Flow; payload: T }): Flow;
+}
+
+export interface Callback<T> {
+  (params: { flow: Flow; payload: T }, defaultCallback?: DefaultCallback<T>):
+    | Flow
+    | undefined;
+}
+
+export interface Callbacks {
+  addNode?: Callback<Node>;
+}

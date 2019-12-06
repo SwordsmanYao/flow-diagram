@@ -92,12 +92,12 @@ export const FlowDemo = () => {
     <div style={{ margin: 20 }}>
       <CanvasWrapper width={900} height={900}>
         <FlowWrapper
-          flow={flow}
+          value={flow}
           // callbacks={{
-          //   handleAddNode: ({ flow, node }, defaultHandle) => {
+          //   addNode: (params, defaultHandle) => {
           //     //! 函数中没有return的话使用默认返回
           //     // return defaultHandle();
-          //     const default = defaultHandle();
+          //     const default = defaultHandle(params);
           //     return {
           //       ...default,
           //       nodes: {},

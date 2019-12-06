@@ -1,6 +1,9 @@
 import * as React from "react";
 import { Node } from "../../interfaces";
 import { DefaultPort } from "../Port";
+import { usePosition } from "../../hooks";
+import { CanvasContext } from "../Canvas";
+import { useRef, useContext } from "react";
 
 interface Props {
   node: Node;
@@ -9,6 +12,20 @@ interface Props {
 export const DefaultNode: React.FC<Props> = props => {
   const { node } = props;
   const { ports } = node;
+  const nodeRef = useRef<HTMLDivElement>(null);
+  const canvas = useContext(CanvasContext);
+  usePosition({
+    zoom: canvas.zoom,
+    targetElementRef: nodeRef,
+    relativeElementRef: canvas.ref,
+    onChange: position => {
+      // update node position
+      if (nodeRef.current) {
+        nodeRef.current.style.left = `${position.x}px`;
+        nodeRef.current.style.top = `${position.y}px`;
+      }
+    },
+  });
   return (
     <div
       style={{
@@ -20,6 +37,7 @@ export const DefaultNode: React.FC<Props> = props => {
         position: "absolute"
       }}
       onClick={() => console.log("node")}
+      ref={nodeRef}
     >
       {ports &&
         Object.keys(ports).map(key => <DefaultPort port={ports[key]} />)}

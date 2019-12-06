@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "../../interfaces";
-import { useReferencePort } from "../Flow/useReferencePort";
+import { useReferencePort } from "../../hooks/useReferencePort";
 
 interface Props {
   link: Link;
