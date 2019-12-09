@@ -4,6 +4,7 @@ import { DefaultPort } from "../Port";
 import { usePosition } from "../../hooks";
 import { CanvasContext } from "../Canvas";
 import { useRef, useContext } from "react";
+import { DispatchContext } from "../Flow";
 
 interface Props {
   node: Node;
@@ -14,17 +15,24 @@ export const DefaultNode: React.FC<Props> = props => {
   const { ports } = node;
   const nodeRef = useRef<HTMLDivElement>(null);
   const canvas = useContext(CanvasContext);
+  const dispatch = useContext(DispatchContext);
   usePosition({
     zoom: canvas.zoom,
     targetElementRef: nodeRef,
     relativeElementRef: canvas.ref,
     onChange: position => {
-      // update node position
       if (nodeRef.current) {
+        dispatch({
+          type: "moveNode",
+          payload: {
+            ...node,
+            position
+          }
+        });
         nodeRef.current.style.left = `${position.x}px`;
         nodeRef.current.style.top = `${position.y}px`;
       }
-    },
+    }
   });
   return (
     <div
@@ -40,7 +48,9 @@ export const DefaultNode: React.FC<Props> = props => {
       ref={nodeRef}
     >
       {ports &&
-        Object.keys(ports).map(key => <DefaultPort port={ports[key]} />)}
+        Object.keys(ports).map(key => (
+          <DefaultPort key={key} port={ports[key]} />
+        ))}
     </div>
   );
 };

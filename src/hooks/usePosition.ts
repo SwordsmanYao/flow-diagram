@@ -1,10 +1,9 @@
 import { RefObject, useEffect } from "react";
 import { Position } from "../interfaces";
-import { fromEvent } from "rxjs";
+import { fromEvent, Subscription } from "rxjs";
 import { map, switchMap, takeUntil } from "rxjs/operators";
 
 interface UsePositionParams {
-  /** 当前缩放 */
   zoom: number;
   /** 设置位置的目标元素 */
   targetElementRef: RefObject<HTMLElement>;
@@ -23,7 +22,9 @@ export const usePosition = (params: UsePositionParams) => {
     eventElementRef = targetElementRef,
     onChange
   } = params;
+
   useEffect(() => {
+    let subscribe: Subscription;
     if (eventElementRef.current) {
       const mouseDown$ = fromEvent<MouseEvent>(
         eventElementRef.current,
@@ -57,12 +58,13 @@ export const usePosition = (params: UsePositionParams) => {
         })
       );
 
-      move$.subscribe(position => {
+      subscribe = move$.subscribe(position => {
         onChange({
           x: position.x / zoom,
           y: position.y / zoom
         });
       });
     }
-  }, []);
+    return () => subscribe && subscribe.unsubscribe();
+  }, [zoom]);
 };

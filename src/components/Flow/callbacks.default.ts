@@ -10,3 +10,18 @@ export const addNode: DefaultCallback<Node> = params => {
     };
   });
 };
+
+export const moveNode: DefaultCallback<Node> = params => {
+  const { flow, payload } = params;
+  return produce(flow, draft => {
+    if (flow.nodes?.[payload.id]) {
+      draft.nodes = {
+        ...flow.nodes,
+        [payload.id]: {
+          ...flow.nodes?.[payload.id],
+          position: payload.position,
+        }
+      };
+    }
+  })
+}

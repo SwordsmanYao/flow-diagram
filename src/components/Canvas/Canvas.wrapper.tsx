@@ -14,7 +14,7 @@ interface Props {
 
 export const CanvasWrapper: React.FC<Props> = props => {
   const { children, width = 500, height = 500 } = props;
-  
+
   const containerRef = useRef<HTMLDivElement>(null);
   const basicRef = useRef<HTMLDivElement>(null);
   const { transform } = useTransform(
@@ -38,7 +38,13 @@ export const CanvasWrapper: React.FC<Props> = props => {
         {canvas => (
           <div
             ref={containerRef}
-            style={{ width, height, overflow: "hidden", background: "#eee", position: 'relative' }}
+            style={{
+              width,
+              height,
+              overflow: "hidden",
+              background: "#eee",
+              position: "relative"
+            }}
           >
             <div
               ref={basicRef}

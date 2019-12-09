@@ -12,4 +12,5 @@ export interface Callback<T> {
 
 export interface Callbacks {
   addNode?: Callback<Node>;
+  moveNode?: Callback<Node>;
 }

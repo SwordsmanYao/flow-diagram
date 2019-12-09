@@ -11,7 +11,7 @@ import { DispatchContext } from "./DispatchContext";
 interface Props {
   defaultValue?: Flow;
   value?: Flow;
-  onChange?: (flow: Flow) => void;
+  onChange?: (action: SetFlowAction) => void;
   callbacks?: Callbacks;
 }
 
@@ -25,13 +25,11 @@ export const FlowWrapper: React.FC<Props> = props => {
     props.value,
     privateFlow
   ]);
+
   const setFlow = React.useCallback(
     (action: SetFlowAction) => {
-      setPrivateFlow(pre => {
-        const value = action(pre);
-        onChange && onChange(value);
-        return action(value);
-      });
+      setPrivateFlow(action);
+      onChange && onChange(action);
     },
     [onChange, setPrivateFlow]
   );

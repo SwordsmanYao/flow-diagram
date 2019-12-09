@@ -5,10 +5,15 @@ export interface Dispatch {
   (params: DispatchParams): void;
 }
 
-export type DispatchParams = {
-  action: "addNode";
-  payload: Node;
-};
+export type DispatchParams =
+  | {
+      type: "addNode";
+      payload: Node;
+    }
+  | {
+      type: "moveNode";
+      payload: Node;
+    };
 
 export interface SetFlowAction {
   (flow: Flow): Flow;
@@ -19,10 +24,10 @@ export const useDispatch = (
   callbacks?: Callbacks
 ) => {
   const dispatch: Dispatch = params => {
-    const { action, payload } = params;
-    const defaultCallback = defaultCallbacks[action];
+    const { type, payload } = params;
+    const defaultCallback = defaultCallbacks[type];
     if (defaultCallback) {
-      const callback = callbacks && callbacks[action];
+      const callback = callbacks && callbacks[type];
       // callback 没有返回值时使用 defaultCallback 的返回值
       setFlow(
         flow =>
@@ -40,7 +45,7 @@ export const useDispatch = (
           })
       );
     } else {
-      console.warn(`dispatch: no ${action} action`);
+      console.warn(`dispatch: no ${type} action`);
     }
   };
 

@@ -22,9 +22,7 @@ export const stringifyPosition = (transform: Transform) =>
   `translate(${transform.position.x}px, ${transform.position.y}px)`;
 
 export const parsePosition = (str: string) => {
-  const matchs = str.match(
-    /^translate\(([\s\S]+)px, ([\s\S]+)px\)$/
-  );
+  const matchs = str.match(/^translate\(([\s\S]+)px, ([\s\S]+)px\)$/);
   if (matchs && matchs.length === 4) {
     return {
       zoom: Number(matchs[1]),

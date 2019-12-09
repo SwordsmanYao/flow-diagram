@@ -19,8 +19,8 @@ export const DefaultPort: React.FC<Props> = props => {
         background: red;
         display: inline-block;
         position: absolute;
-        left: ${port.position.x - width/2}px;
-        top: ${port.position.y - height/2}px;
+        left: ${port.position.x - width / 2}px;
+        top: ${port.position.y - height / 2}px;
       `}
     ></div>
   );
