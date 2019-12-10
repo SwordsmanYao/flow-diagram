@@ -1,4 +1,4 @@
 export * from "./useTransform";
 export * from "./usePosition";
-export * from "./useReferencePort";
+export * from "./useLinkPointPosition";
 export * from "./useDispatch";

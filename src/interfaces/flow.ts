@@ -27,8 +27,8 @@ export interface Port {
 export interface Link {
   id: string;
   type: string;
-  from: PortReference;
-  to: PortReference;
+  from: PortReference | Position;
+  to: PortReference | Position;
 }
 
 export interface PortReference {
