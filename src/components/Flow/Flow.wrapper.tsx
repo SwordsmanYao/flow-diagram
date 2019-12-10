@@ -18,7 +18,7 @@ interface Props {
 export const FlowWrapper: React.FC<Props> = props => {
   const { defaultValue, onChange, callbacks } = props;
   const [privateFlow, setPrivateFlow] = useState<Flow>(
-    defaultValue || initialFlow
+    props.value || defaultValue || initialFlow
   );
 
   const flow = useMemo(() => props.value || privateFlow, [

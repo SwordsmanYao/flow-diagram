@@ -20,18 +20,13 @@ export const DefaultValueDemo = () => {
   return (
     <div style={{ margin: 20 }}>
       <CanvasWrapper width={900} height={900}>
-        <FlowWrapper
-          defaultValue={flowData}
-          onChange={handleChange}
-        />
+        <FlowWrapper defaultValue={flowData} onChange={handleChange} />
       </CanvasWrapper>
     </div>
   );
 };
 
-
 export const ValueDemo = () => {
-
   const [flow, setFlow] = React.useState(flowData);
 
   const handleChange = (action: SetFlowAction) => {
@@ -43,21 +38,7 @@ export const ValueDemo = () => {
   return (
     <div style={{ margin: 20 }}>
       <CanvasWrapper width={900} height={900}>
-        <FlowWrapper
-          value={flow}
-          // callbacks={{
-          //   addNode: (params, defaultHandle) => {
-          //     //! 函数中没有return的话使用默认返回
-          //     // return defaultHandle();
-          //     const default = defaultHandle(params);
-          //     return {
-          //       ...default,
-          //       nodes: {},
-          //     };
-          //   }
-          // }}
-          onChange={handleChange}
-        />
+        <FlowWrapper value={flow} onChange={handleChange} />
       </CanvasWrapper>
     </div>
   );

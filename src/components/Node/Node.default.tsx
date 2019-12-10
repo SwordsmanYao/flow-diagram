@@ -29,8 +29,6 @@ export const DefaultNode: React.FC<Props> = props => {
             position
           }
         });
-        nodeRef.current.style.left = `${position.x}px`;
-        nodeRef.current.style.top = `${position.y}px`;
       }
     }
   });

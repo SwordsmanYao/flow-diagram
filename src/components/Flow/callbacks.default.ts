@@ -18,7 +18,7 @@ export const moveNode: DefaultCallback<Node> = params => {
       draft.nodes = {
         ...flow.nodes,
         [payload.id]: {
-          ...flow.nodes?.[payload.id],
+          ...flow.nodes[payload.id],
           position: payload.position,
         }
       };

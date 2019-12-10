@@ -1,10 +1,10 @@
 import { Position } from "./generics";
 
 export interface Flow {
-  nodes?: {
+  nodes: {
     [id: string]: Node;
   };
-  links?: {
+  links: {
     [id: string]: Link;
   };
 }

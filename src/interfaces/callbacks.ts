@@ -5,7 +5,7 @@ export interface DefaultCallback<T> {
 }
 
 export interface Callback<T> {
-  (params: { flow: Flow; payload: T }, defaultCallback?: DefaultCallback<T>):
+  (params: { flow: Flow; payload: T }, defaultCallback: DefaultCallback<T>):
     | Flow
     | undefined;
 }
