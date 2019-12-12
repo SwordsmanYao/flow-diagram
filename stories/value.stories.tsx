@@ -10,7 +10,6 @@ export const DefaultValueDemo = () => {
 
   const handleChange = (action: SetFlowAction) => {
     setFlow(val => {
-      console.log(val, "flow");
       return action(val);
     });
   };
@@ -31,7 +30,6 @@ export const ValueDemo = () => {
 
   const handleChange = (action: SetFlowAction) => {
     setFlow(val => {
-      console.log(val, "flow");
       return action(val);
     });
   };

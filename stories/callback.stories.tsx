@@ -46,7 +46,6 @@ export const CallbackDemo2 = () => {
 
   const handleChange = (action: SetFlowAction) => {
     setFlow(val => {
-      console.log(val, "flow");
       return action(val);
     });
   };
@@ -80,7 +79,6 @@ export const CallbackDemo3 = () => {
 
   const handleChange = (action: SetFlowAction) => {
     setFlow(val => {
-      console.log(val, "flow");
       return action(val);
     });
   };

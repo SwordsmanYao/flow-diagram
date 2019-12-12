@@ -7,6 +7,8 @@ export interface Flow {
   links: {
     [id: string]: Link;
   };
+  /** 正在连线的linkId */
+  linkingId?: string;
 }
 
 export interface Node {
