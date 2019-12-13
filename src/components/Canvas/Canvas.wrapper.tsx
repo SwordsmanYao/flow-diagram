@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const CanvasWrapper: React.FC<Props> = props => {
-  const { children, width = 500, height = 500 } = props;
+  const { children, width = "100%", height = "100%" } = props;
 
   const containerRef = useRef<HTMLDivElement>(null);
   const basicRef = useRef<HTMLDivElement>(null);
@@ -42,7 +42,7 @@ export const CanvasWrapper: React.FC<Props> = props => {
               width,
               height,
               overflow: "hidden",
-              background: "#eee",
+              // background: "#eee",
               position: "relative"
             }}
           >

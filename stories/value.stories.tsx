@@ -19,19 +19,14 @@ export const DefaultValueDemo = () => {
 
   return (
     <div style={{ margin: 20 }}>
-      <CanvasWrapper width={900} height={900}>
-        <FlowWrapper
-          defaultValue={flowData}
-          onChange={handleChange}
-        />
+      <CanvasWrapper>
+        <FlowWrapper defaultValue={flowData} onChange={handleChange} />
       </CanvasWrapper>
     </div>
   );
 };
 
-
 export const ValueDemo = () => {
-
   const [flow, setFlow] = React.useState(flowData);
 
   const handleChange = (action: SetFlowAction) => {
@@ -41,8 +36,8 @@ export const ValueDemo = () => {
     });
   };
   return (
-    <div style={{ margin: 20 }}>
-      <CanvasWrapper width={900} height={900}>
+    <div style={{ margin: 20, height: "calc(100vh - 40px)" }}>
+      <CanvasWrapper>
         <FlowWrapper
           value={flow}
           // callbacks={{
