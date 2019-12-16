@@ -46,8 +46,11 @@ export const linkMove: DefaultCallback<LinkMovePayload> = params => {
 export const linkEnd: DefaultCallback<LinkEndPayload> = params => {
   const { flow, payload } = params;
   return produce(flow, draft => {
+    draft.linkingId = undefined;
     if (payload.linkId) {
-      draft.links[payload.linkId].to = payload.to;
+      if (payload.to) {
+        draft.links[payload.linkId].to = payload.to;
+      }
     }
   });
 };

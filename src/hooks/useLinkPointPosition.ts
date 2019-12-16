@@ -3,10 +3,10 @@ import { PortReference, Position } from "../interfaces";
 import { FlowContext } from "../components/Flow";
 
 export const useLinkPointPosition = (linkPoint: PortReference | Position): Position => {
+  const flow = useContext(FlowContext);
   if ('x' in linkPoint) {
     return linkPoint;
   }
-  const flow = useContext(FlowContext);
   const node = flow.nodes[linkPoint.nodeId];
   const port = node && node.ports[linkPoint.portId];
   return node && port && {

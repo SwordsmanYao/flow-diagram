@@ -22,24 +22,27 @@ export const DefaultPort: React.FC<Props> = props => {
 
   usePosition({
     targetElementRef: ref,
-    onMouseDown: useEventCallback(() => {
-      const id = uuid();
-      dispatch({
-        type: "linkStart",
-        payload: {
-          id: id,
-          type: "default",
-          from: {
-            nodeId: node.id,
-            portId: port.id
-          },
-          to: {
-            x: node.position.x + port.position.x,
-            y: node.position.y + port.position.y
+    onMouseDown: useEventCallback(
+      () => {
+        const id = uuid();
+        dispatch({
+          type: "linkStart",
+          payload: {
+            id: id,
+            type: "default",
+            from: {
+              nodeId: node.id,
+              portId: port.id
+            },
+            to: {
+              x: node.position.x + port.position.x,
+              y: node.position.y + port.position.y
+            }
           }
-        }
-      });
-    }, [node, port]),
+        });
+      },
+      [node, port]
+    ),
     onMove: useEventCallback(
       position => {
         if (linkingId) {
@@ -56,10 +59,22 @@ export const DefaultPort: React.FC<Props> = props => {
         }
       },
       [linkingId]
-    )
+    ),
+    onMouseUp: useEventCallback(() => {
+      if (linkingId) {
+        dispatch({
+          type: "linkEnd",
+          payload: {
+            linkId: linkingId,
+            to: links[linkingId].to,
+          },
+        });
+      }
+    }, [linkingId, linkingId && links[linkingId]])
   });
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
     if (linkingId && "x" in links[linkingId].to) {
       dispatch({
         type: "linkEnd",

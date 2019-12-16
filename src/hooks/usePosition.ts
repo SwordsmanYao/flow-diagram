@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useContext, useRef } from "react";
 import { Position } from "../interfaces";
 import { fromEvent, Subscription, Observable } from "rxjs";
-import { map, switchMap, takeUntil } from "rxjs/operators";
+import { map, switchMap, takeUntil, merge, scan, filter } from "rxjs/operators";
 import { CanvasContext } from "../components";
 
 interface UsePositionParams {
@@ -11,6 +11,7 @@ interface UsePositionParams {
   /** 触发鼠标事件的元素 */
   eventElementRef?: RefObject<HTMLElement>;
   onMouseDown?: (event: MouseEvent) => void;
+  onMouseUp?: (event?: MouseEvent) => void;
 }
 
 export const usePosition = (params: UsePositionParams) => {
@@ -18,7 +19,8 @@ export const usePosition = (params: UsePositionParams) => {
     targetElementRef,
     eventElementRef = targetElementRef,
     onMove,
-    onMouseDown
+    onMouseDown,
+    onMouseUp
   } = params;
 
   const { zoom, ref: relativeElementRef } = useContext(CanvasContext);
@@ -59,18 +61,31 @@ export const usePosition = (params: UsePositionParams) => {
           );
         })
       );
+
+      mouseDown$.pipe(
+        merge(mouseUp$),
+        scan<MouseEvent, { pre?: MouseEvent; current?: MouseEvent }>((acc, current) => ({
+          pre: acc.current,
+          current: current
+        }), {}),
+        filter(({ pre }) => pre?.type === 'mousedown')
+      ).subscribe(({ current }) => {
+        onMouseUp && onMouseUp(current);
+      });
     }
-  });
+  }, []);
 
   useEffect(() => {
     let subscribe: Subscription;
     if (move$Ref.current) {
-      subscribe = move$Ref.current.subscribe(position => {
-        onMove({
-          x: position.x / zoom,
-          y: position.y / zoom
-        });
-      });
+      subscribe = move$Ref.current.subscribe(
+        position => {
+          onMove({
+            x: position.x / zoom,
+            y: position.y / zoom
+          });
+        },
+      );
     }
 
     return () => subscribe.unsubscribe();
