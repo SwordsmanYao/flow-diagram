@@ -1,4 +1,5 @@
 import { Transform } from "../interfaces";
+
 export const stringifyTransform = (transform: Transform) =>
   `scale(${transform.zoom}) translate(${transform.position.x}px, ${transform.position.y}px)`;
 

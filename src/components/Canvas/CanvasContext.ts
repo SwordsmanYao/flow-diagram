@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Canvas } from "../../interfaces/canvas";
+import { Canvas } from "../../interfaces";
 
 export const initialCanvas: Canvas = {
   position: {

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { PortReference, Position } from "../interfaces";
-import { FlowContext } from "../components/Flow";
+import { FlowContext } from "../components";
 
 export const useLinkPointPosition = (linkPoint: PortReference | Position): Position => {
   const flow = useContext(FlowContext);

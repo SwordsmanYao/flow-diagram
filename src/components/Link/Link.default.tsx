@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "../../interfaces";
-import { useLinkPointPosition } from "../../hooks/useLinkPointPosition";
+import { useLinkPointPosition } from "../../hooks";
 
 interface Props {
   link: Link;
