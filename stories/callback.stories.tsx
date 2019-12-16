@@ -9,7 +9,7 @@ export default { title: "callbacks" };
 export const CallbackDemo = () => {
   const [flow, setFlow] = React.useState(flowData);
 
-  const handleChange = (action: SetFlowAction) => {
+  const setValue = (action: SetFlowAction) => {
     setFlow(val => {
       console.log(val, "flow");
       return action(val);
@@ -34,7 +34,7 @@ export const CallbackDemo = () => {
               return;
             }
           }}
-          onChange={handleChange}
+          setValue={setValue}
         />
       </CanvasWrapper>
     </div>
@@ -44,7 +44,7 @@ export const CallbackDemo = () => {
 export const CallbackDemo2 = () => {
   const [flow, setFlow] = React.useState(flowData);
 
-  const handleChange = (action: SetFlowAction) => {
+  const setValue = (action: SetFlowAction) => {
     setFlow(val => {
       return action(val);
     });
@@ -66,7 +66,7 @@ export const CallbackDemo2 = () => {
               return;
             }
           }}
-          onChange={handleChange}
+          setValue={setValue}
         />
       </CanvasWrapper>
     </div>
@@ -77,7 +77,7 @@ export const CallbackDemo2 = () => {
 export const CallbackDemo3 = () => {
   const [flow, setFlow] = React.useState(flowData);
 
-  const handleChange = (action: SetFlowAction) => {
+  const setValue = (action: SetFlowAction) => {
     setFlow(val => {
       return action(val);
     });
@@ -99,7 +99,7 @@ export const CallbackDemo3 = () => {
               return;
             }
           }}
-          onChange={handleChange}
+          setValue={setValue}
         />
       </CanvasWrapper>
     </div>
