@@ -8,7 +8,7 @@ export default { title: "value" };
 export const DefaultValueDemo = () => {
   const [flow, setFlow] = React.useState(flowData);
 
-  console.log('flow', flow);
+  console.log("flow", flow);
   // 这里可以直接使用 setFlow 给 setValue
   const setValue = (action: SetFlowAction) => {
     setFlow(val => {

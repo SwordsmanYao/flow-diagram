@@ -73,7 +73,6 @@ export const CallbackDemo2 = () => {
   );
 };
 
-
 export const CallbackDemo3 = () => {
   const [flow, setFlow] = React.useState(flowData);
 
@@ -88,12 +87,13 @@ export const CallbackDemo3 = () => {
         <FlowWrapper
           value={flow}
           callbacks={{
-            moveNode: (params) => {
+            moveNode: params => {
               if (params.payload.position.x > 200) {
                 // 自定义返回
                 return produce(params.flow, draft => {
                   draft.nodes[params.payload.id].position.x = 200;
-                  draft.nodes[params.payload.id].position.y = params.payload.position.y;
+                  draft.nodes[params.payload.id].position.y =
+                    params.payload.position.y;
                 });
               }
               return;
