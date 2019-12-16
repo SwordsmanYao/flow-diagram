@@ -1,8 +1,8 @@
 {
   "name": "flow-diagram",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "start": "start-storybook",
     "build": "tsc --rootDir src --outDir lib",
