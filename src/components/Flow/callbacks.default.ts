@@ -1,4 +1,10 @@
-import { Node, DefaultCallback, Link, LinkMovePayload, LinkEndPayload } from "../../interfaces";
+import {
+  Node,
+  DefaultCallback,
+  Link,
+  LinkMovePayload,
+  LinkEndPayload
+} from "../../interfaces";
 import produce from "immer";
 
 export const addNode: DefaultCallback<Node> = params => {
@@ -46,11 +52,17 @@ export const linkMove: DefaultCallback<LinkMovePayload> = params => {
 export const linkEnd: DefaultCallback<LinkEndPayload> = params => {
   const { flow, payload } = params;
   return produce(flow, draft => {
-    draft.linkingId = undefined;
     if (payload.linkId) {
       if (payload.to) {
         draft.links[payload.linkId].to = payload.to;
       }
     }
+  });
+};
+
+export const clearLinkingId: DefaultCallback<void> = params => {
+  const { flow } = params;
+  return produce(flow, draft => {
+    delete draft.linkingId;
   });
 };

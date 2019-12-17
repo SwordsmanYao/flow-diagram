@@ -17,4 +17,5 @@ export interface Callbacks {
   linkStart?: Callback<Link>;
   linkMove?: Callback<LinkMovePayload>;
   linkEnd?: Callback<LinkEndPayload>;
+  clearLinkingId?: Callback<void>;
 }

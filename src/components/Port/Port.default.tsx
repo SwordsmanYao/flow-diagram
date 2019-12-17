@@ -69,6 +69,9 @@ export const DefaultPort: React.FC<Props> = props => {
             to: links[linkingId].to,
           },
         });
+        dispatch({
+          type: "clearLinkingId",
+        });
       }
     }, [linkingId, linkingId && links[linkingId]])
   });
@@ -85,6 +88,9 @@ export const DefaultPort: React.FC<Props> = props => {
             portId: port.id
           }
         }
+      });
+      dispatch({
+        type: "clearLinkingId",
       });
     }
   };

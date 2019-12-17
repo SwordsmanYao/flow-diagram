@@ -34,6 +34,10 @@ export type DispatchParams =
   | {
       type: "linkEnd";
       payload: LinkEndPayload;
+    }
+  | {
+      type: "clearLinkingId";
+      payload?: void;
     };
 
 export interface SetFlowAction {
