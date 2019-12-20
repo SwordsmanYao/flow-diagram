@@ -1,13 +1,16 @@
 import {
-  Node,
   DefaultCallback,
-  Link,
   LinkMovePayload,
-  LinkEndPayload
+  LinkEndPayload,
+  LinkStartPayload,
+  AddNodePayload,
+  MoveNodePayload,
+  ClearLinkingIdPayload,
+  LinkContinuePayload
 } from "../../interfaces";
 import produce from "immer";
 
-export const addNode: DefaultCallback<Node> = params => {
+export const addNode: DefaultCallback<AddNodePayload> = params => {
   const { flow, payload } = params;
   return produce(flow, draft => {
     draft.nodes = {
@@ -17,7 +20,7 @@ export const addNode: DefaultCallback<Node> = params => {
   });
 };
 
-export const moveNode: DefaultCallback<Node> = params => {
+export const moveNode: DefaultCallback<MoveNodePayload> = params => {
   const { flow, payload } = params;
   return produce(flow, draft => {
     if (flow.nodes[payload.id]) {
@@ -32,7 +35,7 @@ export const moveNode: DefaultCallback<Node> = params => {
   });
 };
 
-export const linkStart: DefaultCallback<Link> = params => {
+export const linkStart: DefaultCallback<LinkStartPayload> = params => {
   const { flow, payload } = params;
   return produce(flow, draft => {
     draft.links[payload.id] = payload;
@@ -43,8 +46,8 @@ export const linkStart: DefaultCallback<Link> = params => {
 export const linkMove: DefaultCallback<LinkMovePayload> = params => {
   const { flow, payload } = params;
   return produce(flow, draft => {
-    if (payload.linkId) {
-      draft.links[payload.linkId].to = payload.to;
+    if (payload.id) {
+      draft.links[payload.id].to = payload.to;
     }
   });
 };
@@ -60,9 +63,19 @@ export const linkEnd: DefaultCallback<LinkEndPayload> = params => {
   });
 };
 
-export const clearLinkingId: DefaultCallback<void> = params => {
+/** linkEnd 后需要手动清除 linkingId */
+export const clearLinkingId: DefaultCallback<
+  ClearLinkingIdPayload
+> = params => {
   const { flow } = params;
   return produce(flow, draft => {
     delete draft.linkingId;
+  });
+};
+
+export const linkContinue: DefaultCallback<LinkContinuePayload> = params => {
+  const { flow, payload } = params;
+  return produce(flow, draft => {
+    draft.linkingId = payload.id;
   });
 };

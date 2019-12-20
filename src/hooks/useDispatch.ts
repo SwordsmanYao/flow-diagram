@@ -1,13 +1,16 @@
 import * as defaultCallbacks from "../components/Flow/callbacks.default";
 import {
   Flow,
-  Node,
   Callbacks,
-  Link,
   Callback,
   DefaultCallback,
   LinkMovePayload,
-  LinkEndPayload
+  LinkEndPayload,
+  AddNodePayload,
+  MoveNodePayload,
+  LinkStartPayload,
+  ClearLinkingIdPayload,
+  LinkContinuePayload
 } from "../interfaces";
 
 export interface Dispatch {
@@ -17,15 +20,15 @@ export interface Dispatch {
 export type DispatchParams =
   | {
       type: "addNode";
-      payload: Node;
+      payload: AddNodePayload;
     }
   | {
       type: "moveNode";
-      payload: Node;
+      payload: MoveNodePayload;
     }
   | {
       type: "linkStart";
-      payload: Link;
+      payload: LinkStartPayload;
     }
   | {
       type: "linkMove";
@@ -37,7 +40,11 @@ export type DispatchParams =
     }
   | {
       type: "clearLinkingId";
-      payload?: void;
+      payload: ClearLinkingIdPayload;
+    }
+  | {
+      type: "linkContinue";
+      payload: LinkContinuePayload;
     };
 
 export interface SetFlowAction {

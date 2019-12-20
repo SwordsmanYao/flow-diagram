@@ -21,7 +21,7 @@ export const DefaultNode: React.FC<Props> = props => {
         dispatch({
           type: "moveNode",
           payload: {
-            ...node,
+            id: node.id,
             position
           }
         });

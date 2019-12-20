@@ -22,34 +22,31 @@ export const DefaultPort: React.FC<Props> = props => {
 
   usePosition({
     targetElementRef: ref,
-    onMouseDown: useEventCallback(
-      () => {
-        const id = uuid();
-        dispatch({
-          type: "linkStart",
-          payload: {
-            id: id,
-            type: "default",
-            from: {
-              nodeId: node.id,
-              portId: port.id
-            },
-            to: {
-              x: node.position.x + port.position.x,
-              y: node.position.y + port.position.y
-            }
+    onMouseDown: useEventCallback(() => {
+      const id = uuid();
+      dispatch({
+        type: "linkStart",
+        payload: {
+          id: id,
+          type: "default",
+          from: {
+            nodeId: node.id,
+            portId: port.id
+          },
+          to: {
+            x: node.position.x + port.position.x,
+            y: node.position.y + port.position.y
           }
-        });
-      },
-      [node, port]
-    ),
+        }
+      });
+    }, [node, port]),
     onMove: useEventCallback(
       position => {
         if (linkingId) {
           dispatch({
             type: "linkMove",
             payload: {
-              linkId: linkingId,
+              id: linkingId,
               to: {
                 x: position.x + width / 2,
                 y: position.y + height / 2
@@ -66,11 +63,12 @@ export const DefaultPort: React.FC<Props> = props => {
           type: "linkEnd",
           payload: {
             linkId: linkingId,
-            to: links[linkingId].to,
-          },
+            to: links[linkingId].to
+          }
         });
         dispatch({
           type: "clearLinkingId",
+          payload: {}
         });
       }
     }, [linkingId, linkingId && links[linkingId]])
@@ -91,6 +89,7 @@ export const DefaultPort: React.FC<Props> = props => {
       });
       dispatch({
         type: "clearLinkingId",
+        payload: {}
       });
     }
   };
