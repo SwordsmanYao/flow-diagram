@@ -11,13 +11,14 @@ export interface Flow {
   linkingId?: string;
 }
 
-export interface Node {
+export interface Node<T = any> {
   id: string;
   type: string;
   position: Position;
   ports: {
     [id: string]: Port;
   };
+  properties?: T;
 }
 
 export interface Port {

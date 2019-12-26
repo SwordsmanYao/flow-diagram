@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Node } from "../../interfaces";
 import { DefaultPort } from "../Port";
-import { usePosition, useEventCallback } from "../../hooks";
+import { useMove, useEventCallback } from "../../hooks";
 import { useRef, useContext } from "react";
 import { DispatchContext } from "../Flow";
 
@@ -14,7 +14,7 @@ export const DefaultNode: React.FC<Props> = props => {
   const { ports } = node;
   const nodeRef = useRef<HTMLDivElement>(null);
   const dispatch = useContext(DispatchContext);
-  usePosition({
+  useMove({
     targetElementRef: nodeRef,
     onMove: useEventCallback(position => {
       if (nodeRef.current) {

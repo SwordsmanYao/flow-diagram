@@ -2,7 +2,7 @@
 import { jsx, css } from "@emotion/core";
 import * as React from "react";
 import { Port, Node } from "../../interfaces";
-import { usePosition, useEventCallback } from "../../hooks";
+import { useMove, useEventCallback } from "../../hooks";
 import { useRef, useContext } from "react";
 import { DispatchContext, FlowContext } from "../Flow";
 import * as uuid from "uuid/v4";
@@ -20,7 +20,7 @@ export const DefaultPort: React.FC<Props> = props => {
   const dispatch = useContext(DispatchContext);
   const { linkingId, links } = useContext(FlowContext);
 
-  usePosition({
+  useMove({
     targetElementRef: ref,
     onMouseDown: useEventCallback(() => {
       const id = uuid();

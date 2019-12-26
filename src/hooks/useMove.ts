@@ -14,7 +14,7 @@ interface UsePositionParams {
   onMouseUp?: (event?: MouseEvent) => void;
 }
 
-export const usePosition = (params: UsePositionParams) => {
+export const useMove = (params: UsePositionParams) => {
   const {
     targetElementRef,
     eventElementRef = targetElementRef,
