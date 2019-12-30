@@ -1,9 +1,8 @@
 import * as React from "react";
 import { Node } from "../../interfaces";
 import { DefaultPort } from "../Port";
-import { useMove, useEventCallback } from "../../hooks";
-import { useRef, useContext } from "react";
-import { DispatchContext } from "../Flow";
+import { useMove, useEventCallback, useDispatchContext } from "../../hooks";
+import { useRef } from "react";
 
 interface Props {
   node: Node;
@@ -13,20 +12,23 @@ export const DefaultNode: React.FC<Props> = props => {
   const { node } = props;
   const { ports } = node;
   const nodeRef = useRef<HTMLDivElement>(null);
-  const dispatch = useContext(DispatchContext);
+  const { dispatch } = useDispatchContext();
   useMove({
     targetElementRef: nodeRef,
-    onMove: useEventCallback(position => {
-      if (nodeRef.current) {
-        dispatch({
-          type: "moveNode",
-          payload: {
-            id: node.id,
-            position
-          }
-        });
-      }
-    }, [])
+    onMove: useEventCallback(
+      position => {
+        if (nodeRef.current) {
+          dispatch({
+            type: "moveNode",
+            payload: {
+              id: node.id,
+              position
+            }
+          });
+        }
+      },
+      [dispatch]
+    )
   });
   return (
     <div
