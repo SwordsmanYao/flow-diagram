@@ -1,8 +1,7 @@
 import * as React from "react";
 import { Node } from "../../interfaces";
 import { DefaultPort } from "../Port";
-import { usePosition } from "../../hooks";
-import { CanvasContext } from "../Canvas";
+import { useMove, useEventCallback } from "../../hooks";
 import { useRef, useContext } from "react";
 import { DispatchContext } from "../Flow";
 
@@ -14,25 +13,20 @@ export const DefaultNode: React.FC<Props> = props => {
   const { node } = props;
   const { ports } = node;
   const nodeRef = useRef<HTMLDivElement>(null);
-  const canvas = useContext(CanvasContext);
   const dispatch = useContext(DispatchContext);
-  usePosition({
-    zoom: canvas.zoom,
+  useMove({
     targetElementRef: nodeRef,
-    relativeElementRef: canvas.ref,
-    onChange: position => {
+    onMove: useEventCallback(position => {
       if (nodeRef.current) {
         dispatch({
           type: "moveNode",
           payload: {
-            ...node,
+            id: node.id,
             position
           }
         });
-        nodeRef.current.style.left = `${position.x}px`;
-        nodeRef.current.style.top = `${position.y}px`;
       }
-    }
+    }, [])
   });
   return (
     <div
@@ -80,7 +74,7 @@ export const DefaultNode: React.FC<Props> = props => {
       </div>
       {ports &&
         Object.keys(ports).map(key => (
-          <DefaultPort key={key} port={ports[key]} />
+          <DefaultPort key={key} port={ports[key]} node={node} />
         ))}
     </div>
   );

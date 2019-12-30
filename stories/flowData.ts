@@ -32,7 +32,7 @@ export const flowData: Flow = {
       id: "node-2",
       type: "default",
       position: {
-        x: 400,
+        x: 200,
         y: 400
       },
       ports: {

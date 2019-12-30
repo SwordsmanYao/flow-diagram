@@ -5,20 +5,21 @@ import { DefaultNode } from "../Node";
 import { DefaultLink } from "../Link";
 import { SvgWrapper, HtmlWrapper } from "../Canvas";
 import { useState, useMemo } from "react";
-import { useDispatch, SetFlowAction } from "../../hooks";
+import { useDispatch, SetFlowAction, useEventCallback } from "../../hooks";
 import { DispatchContext } from "./DispatchContext";
 
 interface Props {
   defaultValue?: Flow;
   value?: Flow;
-  onChange?: (action: SetFlowAction) => void;
+  setValue?: (action: SetFlowAction) => void;
+  onChange?: (value: Flow) => void;
   callbacks?: Callbacks;
 }
 
 export const FlowWrapper: React.FC<Props> = props => {
-  const { defaultValue, onChange, callbacks } = props;
+  const { defaultValue, callbacks, onChange } = props;
   const [privateFlow, setPrivateFlow] = useState<Flow>(
-    defaultValue || initialFlow
+    props.value || defaultValue || initialFlow
   );
 
   const flow = useMemo(() => props.value || privateFlow, [
@@ -26,12 +27,21 @@ export const FlowWrapper: React.FC<Props> = props => {
     privateFlow
   ]);
 
+  const setValue =
+    props.setValue ||
+    useEventCallback(
+      (action: SetFlowAction) => {
+        onChange && onChange(action(flow));
+      },
+      [flow, onChange]
+    );
+
   const setFlow = React.useCallback(
     (action: SetFlowAction) => {
       setPrivateFlow(action);
-      onChange && onChange(action);
+      setValue && setValue(action);
     },
-    [onChange, setPrivateFlow]
+    [setValue, setPrivateFlow]
   );
 
   const dispatch = useDispatch(setFlow, callbacks);

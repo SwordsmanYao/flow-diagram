@@ -1,21 +1,24 @@
 import { Position } from "./generics";
 
 export interface Flow {
-  nodes?: {
+  nodes: {
     [id: string]: Node;
   };
-  links?: {
+  links: {
     [id: string]: Link;
   };
+  /** 正在连线的linkId */
+  linkingId?: string;
 }
 
-export interface Node {
+export interface Node<T = any> {
   id: string;
   type: string;
   position: Position;
   ports: {
     [id: string]: Port;
   };
+  properties?: T;
 }
 
 export interface Port {
@@ -27,8 +30,8 @@ export interface Port {
 export interface Link {
   id: string;
   type: string;
-  from: PortReference;
-  to: PortReference;
+  from: PortReference | Position;
+  to: PortReference | Position;
 }
 
 export interface PortReference {

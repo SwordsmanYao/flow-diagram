@@ -1,5 +1,17 @@
 import * as defaultCallbacks from "../components/Flow/callbacks.default";
-import { Flow, Node, Callbacks } from "../interfaces";
+import {
+  Flow,
+  Callbacks,
+  Callback,
+  DefaultCallback,
+  LinkMovePayload,
+  LinkEndPayload,
+  AddNodePayload,
+  MoveNodePayload,
+  LinkStartPayload,
+  ClearLinkingIdPayload,
+  LinkContinuePayload
+} from "../interfaces";
 
 export interface Dispatch {
   (params: DispatchParams): void;
@@ -8,11 +20,31 @@ export interface Dispatch {
 export type DispatchParams =
   | {
       type: "addNode";
-      payload: Node;
+      payload: AddNodePayload;
     }
   | {
       type: "moveNode";
-      payload: Node;
+      payload: MoveNodePayload;
+    }
+  | {
+      type: "linkStart";
+      payload: LinkStartPayload;
+    }
+  | {
+      type: "linkMove";
+      payload: LinkMovePayload;
+    }
+  | {
+      type: "linkEnd";
+      payload: LinkEndPayload;
+    }
+  | {
+      type: "clearLinkingId";
+      payload: ClearLinkingIdPayload;
+    }
+  | {
+      type: "linkContinue";
+      payload: LinkContinuePayload;
     };
 
 export interface SetFlowAction {
@@ -25,9 +57,12 @@ export const useDispatch = (
 ) => {
   const dispatch: Dispatch = params => {
     const { type, payload } = params;
-    const defaultCallback = defaultCallbacks[type];
+    const defaultCallback = defaultCallbacks[type] as DefaultCallback<
+      typeof payload
+    >;
     if (defaultCallback) {
-      const callback = callbacks && callbacks[type];
+      const callback =
+        callbacks && (callbacks[type] as Callback<typeof payload>);
       // callback 没有返回值时使用 defaultCallback 的返回值
       setFlow(
         flow =>

@@ -1,11 +1,11 @@
 {
   "name": "flow-diagram",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "start": "start-storybook",
-    "build": "tsc",
+    "build": "tsc --rootDir src --outDir lib",
     "build:storybook": "build-storybook -o docs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,12 +20,15 @@
     "nodes",
     "links"
   ],
+  "files": [
+    "lib"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SwordsmanYao/flow-diagram/issues"
   },
-  "homepage": "https://github.com/SwordsmanYao/flow-diagram#readme",
+  "homepage": "https://swordsmanyao.github.io",
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
