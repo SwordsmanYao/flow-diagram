@@ -62,7 +62,7 @@ export const DefaultPort: React.FC<Props> = props => {
         dispatch({
           type: "linkEnd",
           payload: {
-            linkId: linkingId,
+            id: linkingId,
             to: links[linkingId].to
           }
         });
@@ -80,7 +80,7 @@ export const DefaultPort: React.FC<Props> = props => {
       dispatch({
         type: "linkEnd",
         payload: {
-          linkId: linkingId,
+          id: linkingId,
           to: {
             nodeId: node.id,
             portId: port.id

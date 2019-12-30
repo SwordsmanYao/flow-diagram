@@ -18,7 +18,7 @@ export const MustLinkToPort = () => {
                 const { flow, payload } = params;
                 if ("x" in payload.to) {
                   return produce(flow, draft => {
-                    delete draft.links[payload.linkId];
+                    delete draft.links[payload.id];
                   });
                 }
                 return;

@@ -9,6 +9,11 @@ export interface Flow {
   };
   /** 正在连线的linkId */
   linkingId?: string;
+  /** 选中的节点或连线 */
+  selected?: {
+    id: string;
+    type: "node" | "link";
+  };
 }
 
 export interface Node<T = any> {

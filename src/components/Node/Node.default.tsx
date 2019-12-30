@@ -15,6 +15,15 @@ export const DefaultNode: React.FC<Props> = props => {
   const { dispatch } = useDispatchContext();
   useMove({
     targetElementRef: nodeRef,
+    onMouseDown: useEventCallback(() => {
+      dispatch({
+        type: "select",
+        payload: {
+          id: node.id,
+          type: "node"
+        }
+      });
+    }, [dispatch, node.id]),
     onMove: useEventCallback(
       position => {
         if (nodeRef.current) {
@@ -27,9 +36,10 @@ export const DefaultNode: React.FC<Props> = props => {
           });
         }
       },
-      [dispatch]
+      [dispatch, node.id]
     )
   });
+
   return (
     <div
       style={{
@@ -40,7 +50,6 @@ export const DefaultNode: React.FC<Props> = props => {
         border: "1px solid #40b0ff",
         position: "absolute"
       }}
-      onClick={() => console.log("node")}
       ref={nodeRef}
     >
       {ports &&

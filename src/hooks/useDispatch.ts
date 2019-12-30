@@ -10,7 +10,10 @@ import {
   MoveNodePayload,
   LinkStartPayload,
   ClearLinkingIdPayload,
-  LinkContinuePayload
+  LinkContinuePayload,
+  RemoveNodePayload,
+  RemoveLinkPayload,
+  SelectPayload
 } from "../interfaces";
 import { useCallback } from "react";
 
@@ -28,6 +31,10 @@ export type DispatchParams =
       payload: MoveNodePayload;
     }
   | {
+      type: "removeNode";
+      payload: RemoveNodePayload;
+    }
+  | {
       type: "linkStart";
       payload: LinkStartPayload;
     }
@@ -40,12 +47,20 @@ export type DispatchParams =
       payload: LinkEndPayload;
     }
   | {
+      type: "removeLink";
+      payload: RemoveLinkPayload;
+    }
+  | {
       type: "clearLinkingId";
       payload: ClearLinkingIdPayload;
     }
   | {
       type: "linkContinue";
       payload: LinkContinuePayload;
+    }
+  | {
+      type: "select";
+      payload: SelectPayload;
     };
 
 export interface SetFlowAction {

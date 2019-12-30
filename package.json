@@ -1,13 +1,14 @@
 {
   "name": "flow-diagram",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
     "start": "start-storybook",
     "build": "tsc --rootDir src --outDir lib",
     "build:storybook": "build-storybook -o docs",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "pretty-quick --staged"
   },
   "repository": {
     "type": "git",
