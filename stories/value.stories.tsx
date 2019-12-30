@@ -1,9 +1,14 @@
 import * as React from "react";
-import { CanvasWrapper, FlowWrapper, Flow } from "../src";
-import { SetFlowAction } from "../src/hooks";
+import {
+  CanvasWrapper,
+  FlowWrapper,
+  Flow,
+  useDispatchContext,
+  SetFlowAction
+} from "../src";
 import { flowData } from "./flowData";
 
-export default { title: "value" };
+export default { title: "Value" };
 
 export const DefaultValueDemo = () => {
   const [flow, setFlow] = React.useState(flowData);
@@ -18,9 +23,11 @@ export const DefaultValueDemo = () => {
 
   return (
     <div style={{ margin: 20 }}>
-      <CanvasWrapper width={900} height={900}>
-        <FlowWrapper defaultValue={flowData} setValue={setValue} />
-      </CanvasWrapper>
+      <useDispatchContext.Provider>
+        <CanvasWrapper width={900} height={900}>
+          <FlowWrapper defaultValue={flowData} setValue={setValue} />
+        </CanvasWrapper>
+      </useDispatchContext.Provider>
     </div>
   );
 };
@@ -35,9 +42,11 @@ export const ValueDemo = () => {
   };
   return (
     <div style={{ margin: 20 }}>
-      <CanvasWrapper width={900} height={900}>
-        <FlowWrapper value={flow} setValue={setValue} />
-      </CanvasWrapper>
+      <useDispatchContext.Provider>
+        <CanvasWrapper width={900} height={900}>
+          <FlowWrapper value={flow} setValue={setValue} />
+        </CanvasWrapper>
+      </useDispatchContext.Provider>
     </div>
   );
 };
@@ -51,9 +60,11 @@ export const OnchangeDemo = () => {
   };
   return (
     <div style={{ margin: 20 }}>
-      <CanvasWrapper width={900} height={900}>
-        <FlowWrapper value={flow} onChange={handleChange} />
-      </CanvasWrapper>
+      <useDispatchContext.Provider>
+        <CanvasWrapper width={900} height={900}>
+          <FlowWrapper value={flow} onChange={handleChange} />
+        </CanvasWrapper>
+      </useDispatchContext.Provider>
     </div>
   );
 };

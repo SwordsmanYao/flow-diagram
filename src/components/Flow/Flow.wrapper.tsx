@@ -4,9 +4,13 @@ import { Flow, Callbacks } from "../../interfaces";
 import { DefaultNode } from "../Node";
 import { DefaultLink } from "../Link";
 import { SvgWrapper, HtmlWrapper } from "../Canvas";
-import { useState, useMemo } from "react";
-import { useDispatch, SetFlowAction, useEventCallback } from "../../hooks";
-import { DispatchContext } from "./DispatchContext";
+import { useState, useMemo, useEffect } from "react";
+import {
+  useDispatch,
+  SetFlowAction,
+  useEventCallback,
+  useDispatchContext
+} from "../../hooks";
 
 interface Props {
   defaultValue?: Flow;
@@ -22,16 +26,23 @@ export const FlowWrapper: React.FC<Props> = props => {
     props.value || defaultValue || initialFlow
   );
 
+  const { setDispatch } = useDispatchContext();
+
   const flow = useMemo(() => props.value || privateFlow, [
     props.value,
     privateFlow
   ]);
 
-  const setValue = props.setValue || useEventCallback((action: SetFlowAction) => {
-    onChange && onChange(action(flow));
-  }, [flow, onChange]);
+  const setValue =
+    props.setValue ||
+    useEventCallback(
+      (action: SetFlowAction) => {
+        onChange && onChange(action(flow));
+      },
+      [flow, onChange]
+    );
 
-  const setFlow = React.useCallback(
+  const setFlow = useEventCallback(
     (action: SetFlowAction) => {
       setPrivateFlow(action);
       setValue && setValue(action);
@@ -41,31 +52,33 @@ export const FlowWrapper: React.FC<Props> = props => {
 
   const dispatch = useDispatch(setFlow, callbacks);
 
+  useEffect(() => {
+    setDispatch(dispatch);
+  }, [dispatch]);
+
   return (
     <FlowContext.Provider value={flow}>
-      <DispatchContext.Provider value={dispatch}>
-        <FlowContext.Consumer>
-          {flow => {
-            const { nodes, links } = flow;
-            return (
-              <>
-                <SvgWrapper>
-                  {links &&
-                    Object.keys(links).map(key => (
-                      <DefaultLink key={key} link={links[key]} />
-                    ))}
-                </SvgWrapper>
-                <HtmlWrapper>
-                  {nodes &&
-                    Object.keys(nodes).map(key => (
-                      <DefaultNode key={key} node={nodes[key]} />
-                    ))}
-                </HtmlWrapper>
-              </>
-            );
-          }}
-        </FlowContext.Consumer>
-      </DispatchContext.Provider>
+      <FlowContext.Consumer>
+        {flow => {
+          const { nodes, links } = flow;
+          return (
+            <>
+              <SvgWrapper>
+                {links &&
+                  Object.keys(links).map(key => (
+                    <DefaultLink key={key} link={links[key]} />
+                  ))}
+              </SvgWrapper>
+              <HtmlWrapper>
+                {nodes &&
+                  Object.keys(nodes).map(key => (
+                    <DefaultNode key={key} node={nodes[key]} />
+                  ))}
+              </HtmlWrapper>
+            </>
+          );
+        }}
+      </FlowContext.Consumer>
     </FlowContext.Provider>
   );
 };

@@ -2,9 +2,9 @@
 import { jsx, css } from "@emotion/core";
 import * as React from "react";
 import { Port, Node } from "../../interfaces";
-import { useMove, useEventCallback } from "../../hooks";
+import { useMove, useEventCallback, useDispatchContext } from "../../hooks";
 import { useRef, useContext } from "react";
-import { DispatchContext, FlowContext } from "../Flow";
+import { FlowContext } from "../Flow";
 import * as uuid from "uuid/v4";
 
 interface Props {
@@ -17,7 +17,7 @@ export const DefaultPort: React.FC<Props> = props => {
   const width = 6;
   const height = 6;
   const ref = useRef<HTMLDivElement>(null);
-  const dispatch = useContext(DispatchContext);
+  const { dispatch } = useDispatchContext();
   const { linkingId, links } = useContext(FlowContext);
 
   useMove({
