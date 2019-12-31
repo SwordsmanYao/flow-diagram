@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef, DependencyList } from 'react';
+import { useLayoutEffect, useMemo, useRef, DependencyList } from "react";
 
 export function useEventCallback<T>(fn: T, deps?: DependencyList) {
   const ref = useRef<T>();

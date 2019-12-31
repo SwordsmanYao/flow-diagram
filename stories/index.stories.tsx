@@ -6,7 +6,7 @@ export default { title: "Base" };
 // 画布基本信息在 CanvasContext 中
 export const CanvasDemo = () => (
   <div style={{ margin: 20 }}>
-    <CanvasWrapper width={900} height={900}>
+    <CanvasWrapper>
       <CanvasContext.Consumer>
         {transform =>
           `zoom: ${transform.zoom}, position.x: ${transform.position.x}, position.y: ${transform.position.y}`

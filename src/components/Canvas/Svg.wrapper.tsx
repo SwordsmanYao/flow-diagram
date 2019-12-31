@@ -11,7 +11,11 @@ export const SvgWrapper: React.FC<Props> = props => {
   const { children } = props;
   const canvas = useContext(CanvasContext);
   return (
-    <svg width="100%" height="100%" style={{ position: "absolute", left: 0, top: 0 }}>
+    <svg
+      width="100%"
+      height="100%"
+      style={{ position: "absolute", left: 0, top: 0 }}
+    >
       <g
         style={{
           transform: stringifyTransform(canvas)
