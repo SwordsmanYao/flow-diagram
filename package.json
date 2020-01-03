@@ -8,7 +8,8 @@
     "build": "tsc --rootDir src --outDir lib",
     "build:storybook": "build-storybook -o docs",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "pretty-quick --staged"
+    "lint": "pretty-quick --staged",
+    "publish:npm": "npm publish --registry http://registry.npmjs.org"
   },
   "repository": {
     "type": "git",
