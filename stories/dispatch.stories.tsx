@@ -13,7 +13,6 @@ const Demo = () => {
       type: "addNode",
       payload: {
         id: uuid(),
-        type: "default",
         position: {
           x: 300,
           y: 300
@@ -21,7 +20,6 @@ const Demo = () => {
         ports: {
           port1: {
             id: "port1",
-            type: "default",
             position: {
               x: 100,
               y: 0
@@ -29,7 +27,6 @@ const Demo = () => {
           },
           port2: {
             id: "port2",
-            type: "default",
             position: {
               x: 100,
               y: 50
