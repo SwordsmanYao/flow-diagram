@@ -12,6 +12,8 @@ interface UsePositionParams {
   eventElementRef?: RefObject<HTMLElement>;
   onMouseDown?: (event: MouseEvent) => void;
   onMouseUp?: (event?: MouseEvent) => void;
+  /** 移动时矫正偏移，元素的(0,0)点跟随鼠标移动 */
+  correctOffset?: boolean;
 }
 
 export const useMove = (params: UsePositionParams) => {
@@ -20,7 +22,8 @@ export const useMove = (params: UsePositionParams) => {
     eventElementRef = targetElementRef,
     onMove,
     onMouseDown,
-    onMouseUp
+    onMouseUp,
+    correctOffset = false
   } = params;
 
   const { zoom, ref: relativeElementRef } = useContext(CanvasContext);
@@ -48,15 +51,16 @@ export const useMove = (params: UsePositionParams) => {
               x: targetRect.left - relativeRect.left,
               y: targetRect.top - relativeRect.top
             },
-            downEvent: event
+            downEvent: event,
+            targetRect
           };
         }),
-        switchMap(({ prePosition, downEvent }) => {
+        switchMap(({ prePosition, downEvent, targetRect }) => {
           return mouseMove$.pipe(
             takeUntil(mouseUp$),
             map(moveEvent => ({
-              x: prePosition.x + moveEvent.clientX - downEvent.clientX,
-              y: prePosition.y + moveEvent.clientY - downEvent.clientY
+              x: prePosition.x + moveEvent.clientX - (correctOffset ? targetRect.left : downEvent.clientX),
+              y: prePosition.y + moveEvent.clientY - (correctOffset ? targetRect.top : downEvent.clientY)
             }))
           );
         })

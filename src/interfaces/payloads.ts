@@ -1,4 +1,4 @@
-import { Link, Node } from "./flow";
+import { Link, Node, Flow } from "./flow";
 import { Position } from "./generics";
 
 export type AddNodePayload = Node;
@@ -8,15 +8,21 @@ export interface MoveNodePayload {
   position: Position;
 }
 
-export type LinkStartPayload = Link;
+export interface RemoveNodePayload {
+  id: string;
+}
+
+export type LinkStartPayload = Omit<Link, "to"> & {
+  to: Position;
+};
 
 export interface LinkMovePayload {
   id: string;
-  to: Link["to"];
+  to: Position;
 }
 
 export interface LinkEndPayload {
-  linkId: string;
+  id: string;
   to: Link["to"];
 }
 
@@ -25,3 +31,9 @@ export interface ClearLinkingIdPayload {}
 export interface LinkContinuePayload {
   id: string;
 }
+
+export interface RemoveLinkPayload {
+  id: string;
+}
+
+export type SelectPayload = Flow["selected"];

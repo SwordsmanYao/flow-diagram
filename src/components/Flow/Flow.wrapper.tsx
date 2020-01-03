@@ -1,8 +1,8 @@
 import * as React from "react";
 import { FlowContext, initialFlow } from "./FlowContext";
 import { Flow, Callbacks } from "../../interfaces";
-import { DefaultNode } from "../Node";
-import { DefaultLink } from "../Link";
+import { NodeWrapper } from "../Node";
+import { LinkWrapper } from "../Link";
 import { SvgWrapper, HtmlWrapper } from "../Canvas";
 import { useState, useMemo, useEffect } from "react";
 import {
@@ -11,6 +11,11 @@ import {
   useEventCallback,
   useDispatchContext
 } from "../../hooks";
+import {
+  CustomComponents,
+  ComponentsContext,
+  initialComponents
+} from "./ComponentsContext";
 
 interface Props {
   defaultValue?: Flow;
@@ -18,10 +23,11 @@ interface Props {
   setValue?: (action: SetFlowAction) => void;
   onChange?: (value: Flow) => void;
   callbacks?: Callbacks;
+  components?: CustomComponents;
 }
 
 export const FlowWrapper: React.FC<Props> = props => {
-  const { defaultValue, callbacks, onChange } = props;
+  const { defaultValue, callbacks, onChange, components } = props;
   const [privateFlow, setPrivateFlow] = useState<Flow>(
     props.value || defaultValue || initialFlow
   );
@@ -57,28 +63,30 @@ export const FlowWrapper: React.FC<Props> = props => {
   }, [dispatch]);
 
   return (
-    <FlowContext.Provider value={flow}>
-      <FlowContext.Consumer>
-        {flow => {
-          const { nodes, links } = flow;
-          return (
-            <>
-              <SvgWrapper>
-                {links &&
-                  Object.keys(links).map(key => (
-                    <DefaultLink key={key} link={links[key]} />
-                  ))}
-              </SvgWrapper>
-              <HtmlWrapper>
-                {nodes &&
-                  Object.keys(nodes).map(key => (
-                    <DefaultNode key={key} node={nodes[key]} />
-                  ))}
-              </HtmlWrapper>
-            </>
-          );
-        }}
-      </FlowContext.Consumer>
-    </FlowContext.Provider>
+    <ComponentsContext.Provider value={components || initialComponents}>
+      <FlowContext.Provider value={flow}>
+        <FlowContext.Consumer>
+          {flow => {
+            const { nodes, links } = flow;
+            return (
+              <>
+                <SvgWrapper>
+                  {links &&
+                    Object.keys(links).map(key => (
+                      <LinkWrapper key={key} link={links[key]} />
+                    ))}
+                </SvgWrapper>
+                <HtmlWrapper>
+                  {nodes &&
+                    Object.keys(nodes).map(key => (
+                      <NodeWrapper key={key} node={nodes[key]} />
+                    ))}
+                </HtmlWrapper>
+              </>
+            );
+          }}
+        </FlowContext.Consumer>
+      </FlowContext.Provider>
+    </ComponentsContext.Provider>
   );
 };
