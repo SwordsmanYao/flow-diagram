@@ -18,7 +18,7 @@ export interface Flow {
 
 export interface Node<T = any> {
   id: string;
-  type: string;
+  type?: string;
   position: Position;
   ports: {
     [id: string]: Port;
@@ -28,13 +28,13 @@ export interface Node<T = any> {
 
 export interface Port {
   id: string;
-  type: string;
+  type?: string;
   position: Position;
 }
 
 export interface Link {
   id: string;
-  type: string;
+  type?: string;
   from: PortReference | Position;
   to: PortReference | Position;
 }

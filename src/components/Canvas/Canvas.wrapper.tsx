@@ -42,7 +42,7 @@ export const CanvasWrapper: React.FC<Props> = props => {
               width,
               height,
               overflow: "hidden",
-              // background: "#eee",
+              background: "#fafafa",
               position: "relative"
             }}
           >

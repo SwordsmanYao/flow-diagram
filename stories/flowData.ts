@@ -5,6 +5,9 @@ export const flowData: Flow = {
     "node-1": {
       id: "node-1",
       type: "default",
+      properties: {
+        name: "node-1"
+      },
       position: {
         x: 200,
         y: 200

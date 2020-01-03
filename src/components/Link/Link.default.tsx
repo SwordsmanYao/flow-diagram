@@ -1,15 +1,14 @@
 import * as React from "react";
 import { Link, Position } from "../../interfaces";
-import { useLinkPointPosition } from "../../hooks";
 
-interface Props {
+export interface DefaultLinkProps {
+  from: Position;
+  to: Position;
   link: Link;
 }
 
-export const DefaultLink: React.FC<Props> = props => {
-  const { link } = props;
-  const from = useLinkPointPosition(link.from);
-  const to = useLinkPointPosition(link.to);
+export const DefaultLink: React.FC<DefaultLinkProps> = props => {
+  const { from, to } = props;
 
   const generateCurvePath = (
     firstPoint: Position,
