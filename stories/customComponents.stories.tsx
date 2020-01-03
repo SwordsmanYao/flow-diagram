@@ -134,7 +134,7 @@ const MyPort: React.FC<PortProps> = props => {
   );
 }
 
-export const CustomNode = () => {
+export const CustomComponents = () => {
   return (
     <div style={{ margin: 20 }}>
       <useDispatchContext.Provider>
