@@ -16,7 +16,7 @@ export const MustLinkToPort = () => {
             callbacks={{
               linkEnd: params => {
                 const { flow, payload } = params;
-                if ("x" in payload.to) {
+                if (!payload.to) {
                   return produce(flow, draft => {
                     delete draft.links[payload.id];
                   });

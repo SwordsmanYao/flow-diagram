@@ -23,7 +23,8 @@ export interface LinkMovePayload {
 
 export interface LinkEndPayload {
   id: string;
-  to: Link["to"];
+  /** 当不需要修改to的时候为空 */
+  to?: Link["to"];
 }
 
 export interface ClearLinkingIdPayload {}

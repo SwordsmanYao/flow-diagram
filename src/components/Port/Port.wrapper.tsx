@@ -63,7 +63,6 @@ export const PortWrapper: React.FC<Props> = props => {
           type: "linkEnd",
           payload: {
             id: linkingId,
-            to: links[linkingId].to
           }
         });
         dispatch({
