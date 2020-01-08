@@ -6,10 +6,10 @@ import { CanvasContext } from "../components";
 
 interface UsePositionParams {
   /** 设置位置的目标元素 */
-  targetElementRef: RefObject<HTMLElement>;
+  targetElementRef: RefObject<Element>;
   onMove: (position: Position) => void;
   /** 触发鼠标事件的元素 */
-  eventElementRef?: RefObject<HTMLElement>;
+  eventElementRef?: RefObject<Element>;
   onMouseDown?: (event: MouseEvent) => void;
   onMouseUp?: (event?: MouseEvent) => void;
   /** 移动时矫正偏移，元素的(0,0)点跟随鼠标移动 */
