@@ -78,11 +78,16 @@ export const LinkWrapper: React.FC<Props> = props => {
   const to = useLinkPointPosition(link.to);
   const { linkComponents } = React.useContext(ComponentsContext);
   const { dispatch } = useDispatchContext();
+  const { selected } = useContext(FlowContext);
   
+  const isSelected = React.useMemo(() => {
+    return selected?.id === link.id;
+  }, [selected, link.id]);
 
   const Component = React.useMemo(() => link.type && linkComponents?.[link.type] || DefaultLink, [linkComponents, link.type, DefaultLink]);
 
-  const handleClick = () => {
+  const handleSelect = React.useCallback((e: React.MouseEvent<SVGGElement, MouseEvent>) => {
+    e.stopPropagation();
     dispatch({
       type: "select",
       payload: {
@@ -90,11 +95,11 @@ export const LinkWrapper: React.FC<Props> = props => {
         type: "link",
       },
     });
-  };
+  }, [dispatch, link.id]);
 
   return (
-    <g onClick={handleClick}>
-      <Component from={from} to={to} link={link} />
+    <g onClick={handleSelect}>
+      <Component from={from} to={to} link={link} selected={isSelected} />
       {'x' in link.to && <Point to={to} link={link} />}
     </g>
   );

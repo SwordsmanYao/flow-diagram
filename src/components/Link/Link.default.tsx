@@ -5,10 +5,11 @@ export interface DefaultLinkProps {
   from: Position;
   to: Position;
   link: Link;
+  selected: boolean;
 }
 
 export const DefaultLink: React.FC<DefaultLinkProps> = props => {
-  const { from, to } = props;
+  const { from, to, selected } = props;
 
   const generateCurvePath = (
     firstPoint: Position,
@@ -22,10 +23,20 @@ export const DefaultLink: React.FC<DefaultLinkProps> = props => {
   };
 
   return (
-    <path
-      d={generateCurvePath(from, to, 80)}
-      stroke="black"
-      fill="transparent"
-    />
+    <g>
+      <path
+        d={generateCurvePath(from, to, 80)}
+        stroke="rgb(64, 176, 255)"
+        strokeWidth="10px"
+        fill="transparent"
+        opacity={selected ? 0.4 : 0}
+      />
+      <path
+        d={generateCurvePath(from, to, 80)}
+        stroke="#000"
+        strokeWidth="2px"
+        fill="transparent"
+      />
+    </g>
   );
 };

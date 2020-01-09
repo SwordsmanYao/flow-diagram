@@ -3,10 +3,11 @@ import { Node } from "../../interfaces";
 
 export interface DefaultNodeProps {
   node: Node;
+  selected: boolean;
 }
 
 export const DefaultNode: React.FC<DefaultNodeProps> = props => {
-  const { node } = props;
+  const { node, selected } = props;
   return (
     <div
       style={{
@@ -27,7 +28,7 @@ export const DefaultNode: React.FC<DefaultNodeProps> = props => {
           bottom: 0,
           right: 0,
           background: "#40b0ff",
-          opacity: 0.3
+          opacity: selected ? 0.8 : 0.3
         }}
       ></div>
       <div
