@@ -2,7 +2,7 @@
 import { jsx, css } from "@emotion/core";
 import { useRef, ReactNode } from "react";
 import { CanvasContext, initialCanvas } from "./CanvasContext";
-import { useTransform } from "../../hooks";
+import { useTransform, useDispatchContext } from "../../hooks";
 import { stringifyTransform } from "../../utils";
 import * as React from "react";
 
@@ -17,6 +17,7 @@ export const CanvasWrapper: React.FC<Props> = props => {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const basicRef = useRef<HTMLDivElement>(null);
+  const { dispatch } = useDispatchContext();
   const { transform } = useTransform(
     {
       position: initialCanvas.position,
@@ -26,6 +27,14 @@ export const CanvasWrapper: React.FC<Props> = props => {
     containerRef,
     containerRef
   );
+
+  const handleClick = () => {
+    //TODO: 移动画布时不取消选中
+    dispatch({
+      type: "select",
+      payload: undefined
+    });
+  };
 
   return (
     <CanvasContext.Provider
@@ -45,6 +54,7 @@ export const CanvasWrapper: React.FC<Props> = props => {
               background: "#fafafa",
               position: "relative"
             }}
+            onClick={handleClick}
           >
             <div
               ref={basicRef}

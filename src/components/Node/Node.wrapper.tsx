@@ -4,7 +4,7 @@ import { PortWrapper } from "../Port";
 import { useMove, useEventCallback, useDispatchContext } from "../../hooks";
 import { useRef } from "react";
 import { DefaultNode } from "./Node.default";
-import { ComponentsContext } from "../Flow";
+import { ComponentsContext, FlowContext } from "../Flow";
 
 interface Props {
   node: Node;
@@ -16,18 +16,16 @@ export const NodeWrapper: React.FC<Props> = props => {
   const nodeRef = useRef<HTMLDivElement>(null);
   const { dispatch } = useDispatchContext();
   const { nodeComponents } = React.useContext(ComponentsContext);
-
+  const { selected } = React.useContext(FlowContext);
+  
+  const isSelected = React.useMemo(() => {
+    return selected?.id === node.id;
+  }, [selected, node.id]);
+  
+  const Component = React.useMemo(() => node.type && nodeComponents?.[node.type] || DefaultNode, [nodeComponents, node.type, DefaultNode]);
+  
   useMove({
     targetElementRef: nodeRef,
-    onMouseDown: useEventCallback(() => {
-      dispatch({
-        type: "select",
-        payload: {
-          id: node.id,
-          type: "node"
-        }
-      });
-    }, [dispatch, node.id]),
     onMove: useEventCallback(
       position => {
         if (nodeRef.current) {
@@ -44,7 +42,16 @@ export const NodeWrapper: React.FC<Props> = props => {
     )
   });
 
-  const Component = React.useMemo(() => node.type && nodeComponents?.[node.type] || DefaultNode, [nodeComponents, node.type, DefaultNode]);
+  const handleSelect = React.useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    dispatch({
+      type: "select",
+      payload: {
+        id: node.id,
+        type: "node"
+      }
+    });
+  }, [dispatch, node.id]);
 
   return (
     <div
@@ -54,8 +61,9 @@ export const NodeWrapper: React.FC<Props> = props => {
         position: "absolute"
       }}
       ref={nodeRef}
+      onClick={handleSelect}
     >
-      <Component node={node} />
+      <Component node={node} selected={isSelected} />
       {ports &&
         Object.keys(ports).map(key => (
           <PortWrapper key={key} port={ports[key]} node={node} />
