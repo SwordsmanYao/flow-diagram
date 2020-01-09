@@ -1,5 +1,5 @@
 import { Dispatch } from "./useDispatch";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import constate from "constate";
 
 interface State {
@@ -22,9 +22,7 @@ const useDispatch = () => {
       dispatch
     }));
   };
-  return { ...state, setDispatch };
+  return useMemo(() => ({ ...state, setDispatch }), [state.dispatch]);
 };
 
-export const useDispatchContext = constate(useDispatch, value => [
-  value.dispatch
-]);
+export const useDispatchContext = constate(useDispatch);
